@@ -1,0 +1,32 @@
+# 1st stage of the multistage build - to compile our binary (using semaphoreci instead of normal because of docker rates limites) 
+# builder is just our name for the stage
+FROM registry.semaphoreci.com/golang:1.18 as builder
+
+# create the application folder for the app and copies the source code. 
+ENV APP_HOME /go/src/mathapp
+WORKDIR "$APP_HOME"
+COPY src/ .
+
+# download modules and build the binary
+RUN go mod download
+RUN go mod verify
+RUN go build -o mathapp
+
+# ----------------------------------------------------- #
+
+# 2nd stage of the multistage build - the final container where we will run the services
+FROM registry.semaphoreci.com/golang:1.18
+
+# create a folder for the code and make it the active directory
+ENV APP_HOME /go/src/mathapp
+RUN mkdir -p "$APP_HOME"
+WORKDIR "$APP_HOME"
+
+# copy command to copy files into the image. --from lets copy from the previous "1st stage" named builder.
+COPY src/conf/ conf/
+COPY src/views/ views/
+COPY --from=builder $APP_HOME/mathapp $APP_HOME
+
+# what to look at and run app
+EXPOSE 8010
+CMD ["./mathapp"]
