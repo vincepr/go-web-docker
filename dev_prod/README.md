@@ -133,3 +133,5 @@ CMD ["./mathapp"]
 
 ## check this for a good entrypoint
 - https://semaphoreci.com/community/tutorials/how-to-deploy-a-go-web-application-with-docker
+- https://docs.semaphoreci.com/examples/golang-continuous-integration/
+- https://docs.semaphoreci.com/programming-languages/go/

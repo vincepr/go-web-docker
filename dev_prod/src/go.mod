@@ -1,4 +1,4 @@
-module github.com/vincepr/go-web-docker
+module github.com/vincepr/go-web-docker/dev_prod
 
 go 1.20
 
