@@ -1,4 +1,4 @@
-# Container for a go project
+# Dev and Production Container for a go project
 
 # Dev Docker container
 
